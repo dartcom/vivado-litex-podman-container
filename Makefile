@@ -26,7 +26,7 @@ gen-vivado-cfg:untar-vivado
 	cp ~/.Xilinx/install_config.txt installer-vol/
 
 run-vivado-litex:
-	podman run --rm --network=host --pid=host --pull=never -v /dev/:/dev/ -v $(PATH_GIT):/workspaces:z -it localhost/$(CONTAINERNAME) 
+	podman run --rm --network=host --pid=host --pull=never -v /dev/:/dev/ -v $(PATH_GIT):/workspaces:z -it localhost/$(CONTAINERNAME) /bin/bash
 
 build-vivado-litex:start-script
 	podman build --squash -t $(CONTAINERNAME) . -f Containerfile --build-arg=VIVADOINSTALLNAME=$(VIVADOINSTALLNAME) --build-arg=VIVADOVER=$(VIVADOVER) --build-arg=VIVADOCONFIGFILE=$(VIVADOCONFIGFILE)
