@@ -4,7 +4,9 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 ARG VIVADOINSTALLNAME=FPGAs_AdaptiveSoCs_Unified_SDI_2025.2_1114_2157
+ARG VIVADOVER=2025.2
 ARG VIVADOCONFIGFILE=install_config.txt
+
 
 COPY installer-vol/${VIVADOINSTALLNAME} /tmp/${VIVADOINSTALLNAME} 
 COPY installer-vol/${VIVADOCONFIGFILE} /tmp/${VIVADOINSTALLNAME}/
@@ -30,12 +32,11 @@ RUN apt update && \
         libhidapi-hidraw0 libhidapi-dev libudev-dev gpiod libgpiod-dev \ 
         lld texinfo automake nasm doxygen dos2unix xz-utils \ 
         sudo libtool libmpc-dev ftp ninja-build \ 
-        libjim-dev libjaylink-dev libjaylink0 libusb-1.0-0-dev nano tree locales libtinfo-dev && \ 
+        libjim-dev libjaylink-dev libjaylink0 libusb-1.0-0-dev nano tree locales libtinfo5 libtinfo-dev && \ 
         update-ca-certificates
         
 #STEP 2
 RUN mkdir /tmp/tmp-build && \ 
-    ln -s /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libtinfo.so.5 && \ 
     locale && \ 
     locale-gen "en_US.UTF-8" && \ 
     update-locale LANG=en_US.UTF-8 
@@ -43,7 +44,7 @@ RUN mkdir /tmp/tmp-build && \
 #STEP 3
 RUN cd /tmp/${VIVADOINSTALLNAME} && \ 
     ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c ${VIVADOCONFIGFILE} && \ 
-    cd /tools/Xilinx/2025.1/Vivado/scripts && \ 
+    cd /tools/Xilinx/${VIVADOVER}/Vivado/scripts && \ 
     ./installLibs.sh
 
 #STEP 4

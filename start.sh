@@ -1,4 +1,4 @@
 #!/bin/bash
-. /tools/Xilinx/2025.1/Vivado/settings64.sh
+. /tools/Xilinx/2025.2/Vivado/settings64.sh
 cd workspaces
 exec "$@"
