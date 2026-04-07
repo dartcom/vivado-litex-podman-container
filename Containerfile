@@ -3,13 +3,15 @@ FROM ubuntu:22.04
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-ARG VIVADOINSTALLNAME=FPGAs_AdaptiveSoCs_Unified_SDI_2025.2_1114_2157
-ARG VIVADOVER=2025.2
-ARG VIVADOCONFIGFILE=install_config.txt
+ARG VIVADO_INSTALL_NAME=FPGAs_AdaptiveSoCs_Unified_SDI_2025.2_1114_2157
+ARG VIVADO_VER=2025.2
+ARG VIVADO_CONFIG_FILE=install_config.txt
+
+ARG OPENFPGALOADER_VER=v1.0.0 
 
 
-COPY installer-vol/${VIVADOINSTALLNAME} /tmp/${VIVADOINSTALLNAME} 
-COPY installer-vol/${VIVADOCONFIGFILE} /tmp/${VIVADOINSTALLNAME}/
+COPY installer-vol/${VIVADO_INSTALL_NAME} /tmp/${VIVADO_INSTALL_NAME} 
+COPY installer-vol/${VIVADO_CONFIG_FILE} /tmp/${VIVADO_INSTALL_NAME}/
 COPY start.sh .
 
 #STEP 1
@@ -42,9 +44,9 @@ RUN mkdir /tmp/tmp-build && \
     update-locale LANG=en_US.UTF-8 
 
 #STEP 3
-RUN cd /tmp/${VIVADOINSTALLNAME} && \ 
-    ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c ${VIVADOCONFIGFILE} && \ 
-    cd /tools/Xilinx/${VIVADOVER}/Vivado/scripts && \ 
+RUN cd /tmp/${VIVADO_INSTALL_NAME} && \ 
+    ./xsetup -a XilinxEULA,3rdPartyEULA -b Install -c ${VIVADO_CONFIG_FILE} && \ 
+    cd /tools/Xilinx/${VIVADO_VER}/Vivado/scripts && \ 
     ./installLibs.sh
 
 #STEP 4
@@ -88,7 +90,7 @@ RUN cd /tmp/tmp-build && \
 # openFPGALoader
 #STEP 8
 RUN cd /tmp/tmp-build && \ 
-    git clone https://github.com/trabucayre/openFPGALoader && \ 
+    git clone https://github.com/trabucayre/openFPGALoader --branch ${OPENFPGALOADER_VER} && \ 
     cd openFPGALoader && \ 
     mkdir build && \ 
     cd build && \ 
@@ -100,7 +102,7 @@ RUN cd /tmp/tmp-build && \
 # cleanup 
 #STEP 9
 RUN rm -rf /tmp/tmp-build && \ 
-    rm -rf /tmp/${VIVADOINSTALLNAME} && \ 
+    rm -rf /tmp/${VIVADO_INSTALL_NAME} && \ 
     pip cache purge && \ 
     apt-get autoclean && apt-get clean && apt-get -y autoremove
     

@@ -1,14 +1,14 @@
 # vivado-litex-podman-container
-A podman container with vivado, litex, verilator, openfpgaloader
+A podman container with vivado, litex, verilator, openfpgaloader, 
 
 
 - You will need to provide your own vivado unified installer (the big one).
  
-- Place the .tar inside  `installer-vol` folder. Add the name of the tarball to the `VIVADOINSTALLNAME` value on the Makefile and Containerfile.
+- Place the .tar inside  `installer-vol` folder. Add the name of the tarball to the `VIVADO_INSTALL_NAME` value on the Makefile and Containerfile.
 
-- Specify the Vivado config file name on `VIVADOCONFIGFILE` on the Makefile and Containerfile.
+- Specify the Vivado config file name on `VIVADO_CONFIG_FILE` on the Makefile and Containerfile.
 
-- Specify the name of the Vivado version on `VIVADOVER` on the Makefile and Containerfile, e.g. `2025.1`
+- Specify the name of the Vivado version on `VIVADO_VER` on the Makefile and Containerfile, e.g. `2025.1`
 
 -  Run `make gen-vivado-cfg` and follow the instructions of xsetup. `install_config.txt` should appear under `installer-vol`. As of Vivado 2025.1, I had to specify the devices I wanted to support on the .txt file.
 
