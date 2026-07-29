@@ -18,7 +18,7 @@ start-script:
 	echo 'exec "$$@"' >> start.sh
 	chmod +x start.sh
 
-untar-vivado:installer-vol/$(VIVADO_INSTALL_NAME)/xsetup
+untar-vivado:
 	tar -xvf installer-vol/$(VIVADO_INSTALL_NAME).tar -C installer-vol/ 
 
 gen-vivado-cfg:untar-vivado

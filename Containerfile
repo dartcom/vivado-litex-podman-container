@@ -49,6 +49,8 @@ RUN cd /tmp/${VIVADO_INSTALL_NAME} && \
     cd /tools/Xilinx/${VIVADO_VER}/Vivado/scripts && \ 
     ./installLibs.sh
 
+RUN pip3 install "cocotb~=2.0"
+
 #STEP 4
 RUN cd /tmp/tmp-build && \ 
     git clone https://github.com/openocd-org/openocd.git && \ 
@@ -68,7 +70,7 @@ RUN cd /tmp/tmp-build && \
     make -j$(nproc) && \ 
     make install
 
-RUN pip3 install meson 
+RUN pip3 install meson
 
 #STEP 6
 RUN cd /tmp && \ 
